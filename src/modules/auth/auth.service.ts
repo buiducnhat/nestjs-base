@@ -36,7 +36,7 @@ export class AuthService {
     };
   }
 
-  private _generateToken(id: number) {
-    return this.jwtService.sign({ id });
+  private _generateToken(userId: number): string {
+    return this.jwtService.sign({ id: userId });
   }
 }
