@@ -3,7 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
 import { UsersService } from '@modules/users/users.service';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto, LoginResponseDto } from './dto/login.dto';
+import { RegisterResponseDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     return user;
   }
 
-  async register(registerDto: CreateUserDto) {
+  async register(registerDto: CreateUserDto): Promise<RegisterResponseDto> {
     const user = await this.usersService.create(registerDto);
     return {
       token: this._generateToken(user.id),
@@ -25,7 +26,7 @@ export class AuthService {
     };
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const user = await this.usersService.findWithEmail(loginDto.email);
     if (!user || loginDto.password !== user.password) {
       throw new HttpException('Wrong username or password', HttpStatus.UNAUTHORIZED);
