@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-export default (app: INestApplication) => {
+export default (app: INestApplication, prefix: string) => {
   const config = new DocumentBuilder()
     .setTitle('Simple Api')
     .setDescription('Base Nestjs Code with Typeorm-Mysql')
@@ -9,5 +9,5 @@ export default (app: INestApplication) => {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup(prefix + '/docs', app, document);
 };

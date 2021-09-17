@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '@modules/users/users.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { IAuthConfig } from '@src/configs/auth.config';
 
 @Module({
   imports: [
@@ -18,11 +19,11 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwtSecretKey'),
+      useFactory: async (configService: ConfigService<IAuthConfig>) => ({
+        secret: configService.get('jwtSecretKey'),
         signOptions: {
-          algorithm: 'HS256',
-          expiresIn: configService.get<string>('jwtShortExpiresIn'),
+          algorithm: configService.get('jwtAlgorithm'),
+          expiresIn: configService.get('jwtShortExpiresIn'),
         },
       }),
       inject: [ConfigService],
