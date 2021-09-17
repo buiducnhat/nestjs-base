@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/decorators/roles.decorator';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+
+import { Roles } from '@src/decorators/roles.decorator';
+import { CreateUserDto } from '@modules/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { UserInfoDto } from './dto/user-info.dto';
@@ -42,6 +43,6 @@ export class AuthController {
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   async admin() {
-    return 'hehe';
+    return { message: 'Admin route for testing' };
   }
 }
