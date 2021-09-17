@@ -18,14 +18,14 @@ export class AuthController {
 
   @Post('/login')
   @ApiOperation({ summary: 'Login' })
-  @ApiResponse({ status: 201, type: UserInfoDto, description: 'success' })
+  @ApiResponse({ status: 201, type: LoginResponseDto, description: 'success' })
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
     return this.authService.login(loginDto);
   }
 
   @Post('/register')
   @ApiOperation({ summary: 'Register' })
-  @ApiResponse({ status: 201, type: UserInfoDto, description: 'success' })
+  @ApiResponse({ status: 201, type: RegisterResponseDto, description: 'success' })
   async register(@Body() registerDto: RegisterDto): Promise<RegisterResponseDto> {
     return this.authService.register(registerDto);
   }
@@ -40,9 +40,11 @@ export class AuthController {
   }
 
   @Get('/admin')
-  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Admin', description: 'Only user with role Admin can access' })
+  @ApiResponse({ status: 200, description: 'success' })
+  @ApiBearerAuth()
   @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async admin() {
     return { message: 'Admin route for testing' };
   }
