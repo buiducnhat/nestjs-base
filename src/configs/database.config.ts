@@ -1,8 +1,8 @@
 export default (): Record<string, any> => ({
-  databaseConnection: process.env.DATABASE_CONNECTION || 'mysql',
-  databaseHost: process.env.DATABASE_HOST,
-  databasePort: parseInt(process.env.DATABASE_PORT, 10) || 3306,
-  databaseUsername: process.env.DATABASE_USERNAME,
-  databasePassword: process.env.DATABASE_PASSWORD,
-  databaseName: process.env.DATABASE_DB_NAME,
+  dbType: process.env.DB_TYPE || 'mysql',
+  dbHost: process.env.DB_HOST,
+  dbPort: parseInt(process.env.DB_PORT, 10) || 3306,
+  dbUsername: process.env.DB_USERNAME,
+  dbPassword: process.env.DB_PASSWORD,
+  dbName: process.env.DB_DB_NAME,
 });

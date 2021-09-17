@@ -1,21 +1,21 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
+import setupSwagger from './setup-swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+
   app.enableCors();
+  app.setGlobalPrefix(configService.get<string>('apiPrefix'));
 
-  const config = new DocumentBuilder()
-    .setTitle('Simple Api')
-    .setDescription('Base Nestjs Code with Typeorm-Mysql')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  setupSwagger(app);
 
-  await app.listen(3000);
+  const port = configService.get<number>('port');
+  await app.listen(port, () => {
+    console.log(`Server is running on port ${port}...`);
+  });
 }
 bootstrap();

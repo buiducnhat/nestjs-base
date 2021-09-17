@@ -16,9 +16,9 @@ import authConfig from '@configs/auth.config';
       isGlobal: true,
       load: [appConfig, databaseConfig, authConfig],
     }),
-    DatabaseModule,
     UsersModule,
     AuthModule,
+    DatabaseModule,
   ],
   providers: [
     {
