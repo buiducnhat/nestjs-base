@@ -21,7 +21,7 @@ export class AuthService {
     const user = await this.usersService.create(registerDto);
     return {
       token: this._generateToken(user.id),
-      ...user,
+      user,
     };
   }
 
@@ -32,7 +32,7 @@ export class AuthService {
     }
     return {
       token: this._generateToken(user.id),
-      ...user,
+      user,
     };
   }
 

@@ -1,14 +1,15 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { Roles } from '@src/decorators/roles.decorator';
-import { CreateUserDto } from '@modules/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { UserInfoDto } from './dto/user-info.dto';
 import { Role } from './enums/role.enum';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
+import { RegisterDto, RegisterResponseDto } from './dto/register.dto';
+import { AuthUser } from '@src/decorators/auth-user.decorator';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,15 +18,15 @@ export class AuthController {
 
   @Post('/login')
   @ApiOperation({ summary: 'Login' })
-  @ApiResponse({ status: 200, type: UserInfoDto, description: 'success' })
-  async login(@Body() loginDto: LoginDto): Promise<UserInfoDto> {
+  @ApiResponse({ status: 201, type: UserInfoDto, description: 'success' })
+  async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
     return this.authService.login(loginDto);
   }
 
   @Post('/register')
   @ApiOperation({ summary: 'Register' })
-  @ApiResponse({ status: 200, type: UserInfoDto, description: 'success' })
-  async register(@Body() registerDto: CreateUserDto): Promise<UserInfoDto> {
+  @ApiResponse({ status: 201, type: UserInfoDto, description: 'success' })
+  async register(@Body() registerDto: RegisterDto): Promise<RegisterResponseDto> {
     return this.authService.register(registerDto);
   }
 
@@ -34,8 +35,8 @@ export class AuthController {
   @ApiResponse({ status: 200, type: UserInfoDto, description: 'success' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async me(@Req() req: any) {
-    return req.user;
+  async me(@AuthUser() authUser: UserInfoDto) {
+    return authUser;
   }
 
   @Get('/admin')
