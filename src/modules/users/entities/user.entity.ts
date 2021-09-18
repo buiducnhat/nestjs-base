@@ -19,7 +19,7 @@ export class User {
   @Column({ length: 100, nullable: true })
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   avatar: string;
 
   @Column({ length: 100 })
