@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { APP_FILTER } from '@nestjs/core';
 
-import { LoggerModule } from './logger/custom-logger.service';
+import { LoggerModule } from './logger/custom-logger.module';
 import { AllExceptionsFilter } from './filters/exception.filter';
 import { DatabaseModule } from '@src/database/database.module';
 import { UsersModule } from '@modules/users/users.module';

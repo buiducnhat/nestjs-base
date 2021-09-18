@@ -3,7 +3,7 @@ import { QueryFailedError } from 'typeorm';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces/features/arguments-host.interface';
 import { Response } from 'express';
 
-import { LoggerService } from '@src/logger/custom-logger.module';
+import { LoggerService } from '@src/logger/custom-logger.service';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
