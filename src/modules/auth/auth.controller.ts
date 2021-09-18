@@ -10,6 +10,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { RegisterDto, RegisterResponseDto } from './dto/register.dto';
 import { AuthUser } from '@src/decorators/auth-user.decorator';
+import { ValidationPipe } from '@src/pipes/validation.pipe';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -19,14 +20,16 @@ export class AuthController {
   @Post('/login')
   @ApiOperation({ summary: 'Login' })
   @ApiResponse({ status: 201, type: LoginResponseDto, description: 'success' })
-  async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
+  async login(@Body(new ValidationPipe()) loginDto: LoginDto): Promise<LoginResponseDto> {
     return this.authService.login(loginDto);
   }
 
   @Post('/register')
   @ApiOperation({ summary: 'Register' })
   @ApiResponse({ status: 201, type: RegisterResponseDto, description: 'success' })
-  async register(@Body() registerDto: RegisterDto): Promise<RegisterResponseDto> {
+  async register(
+    @Body(new ValidationPipe()) registerDto: RegisterDto,
+  ): Promise<RegisterResponseDto> {
     return this.authService.register(registerDto);
   }
 
