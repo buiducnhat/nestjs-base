@@ -8,6 +8,7 @@ import { IAppConfig } from './configs/app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const logger = new Logger();
   const configService: ConfigService<IAppConfig> = app.get(ConfigService);
 
   app.enableCors();
@@ -19,7 +20,6 @@ async function bootstrap() {
 
   const port = configService.get('port');
   await app.listen(port, () => {
-    const logger = new Logger();
     logger.log(`Server is running on port ${port}...`, 'StartApp');
   });
 }
