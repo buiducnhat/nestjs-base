@@ -3,8 +3,9 @@ import { RequestMethod, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
-import setupSwagger from './setup-swagger';
+import { setupSwagger } from './setup-swagger';
 import { IAppConfig } from './configs/app.config';
+import { ValidationPipe } from './pipes/validation.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,7 @@ async function bootstrap() {
   const configService: ConfigService<IAppConfig> = app.get(ConfigService);
 
   app.enableCors();
+  app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(configService.get('apiPrefix'), {
     exclude: [{ path: 'health', method: RequestMethod.GET }],
   });

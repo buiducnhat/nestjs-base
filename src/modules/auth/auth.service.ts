@@ -29,7 +29,10 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const user = await this.usersService.findWithEmail(loginDto.email);
     if (!user || loginDto.password !== user.password) {
-      throw new HttpException('Wrong username or password', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        { statusCode: HttpStatus.UNAUTHORIZED, message: 'Wrong username or password' },
+        HttpStatus.UNAUTHORIZED,
+      );
     }
     return {
       token: this._generateToken(user.id),

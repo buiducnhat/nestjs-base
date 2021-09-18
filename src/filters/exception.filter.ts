@@ -1,13 +1,13 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces/features/arguments-host.interface';
 import { Response } from 'express';
 
-import { HttpArgumentsHost } from '@nestjs/common/interfaces/features/arguments-host.interface';
 import { LoggerService } from '@src/logger/custom-logger.module';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  constructor(private logger: LoggerService) {}
+  constructor(private readonly logger: LoggerService) {}
 
   private static handleResponse(
     response: Response,
