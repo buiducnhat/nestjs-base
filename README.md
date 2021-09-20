@@ -7,6 +7,7 @@
 ## Description
 Base code for developing RESTful Api Web server quickly using [NestJS](https://nestjs.com/) framework as the main tech.
 
+***
 
 ## Intergrating
 * [NestJS](https://nestjs.com) (totaly writing with Typescript)
@@ -16,8 +17,9 @@ Base code for developing RESTful Api Web server quickly using [NestJS](https://n
 * [Swagger](https://swagger.io/) (OpenAPI) for Api documents
 * Health check for server status
 
+***
 
-## Getting started
+## Getting started (without Docker)
 * Install yarn at global scope (recommended)
 ```bash
 $ npm install -g yarn
@@ -32,6 +34,7 @@ For quickly:
 cp .env.example .env
 ```
 
+***
 
 ## Setup Database
 This project has already integrated with [TypeORM](https://typeorm.io/) and Mysql database.<br/>
@@ -49,6 +52,7 @@ yarn migration:run
 ```
 And the rest scripts is availble in `package.json` file! 
 
+***
 
 ## Running the app
 
@@ -64,6 +68,38 @@ $ yarn build
 $ yarn start:prod
 ```
 
+***
+
+## Running app with Docker
+
+### Requirements
+* Docker
+* Docker compose
+
+### Command
+```bash
+# Remove folder data(contains database data in container) if exist
+$ sudo rm -rf data
+
+# Execute app
+$ docker-compose up
+```
+
+### Note
+If you have any changes with the database, you have to generate new migration file.<br/>
+Normally, we can easily generate with command ```yarn migration:generate``` but now, with docker, we don't install any dependencies.<br/>
+Solution: Run ```docker exec``` to the container that are running the `nest-app`.<br/>
+Example:
+```bash
+$ docker exec -ti nestjs-base_app_1 /bin/sh
+```
+with `nestjs-base_app_1` is the nestjs app container name (you can configure it in the `docker-compose.yml` file)
+Then, you just run command to generate the new migration file (error occurs if there's no change with entities)
+```bash
+$ yarn migration:generate  
+```
+Finally, it's ready to execute your app with `docker-compose`.
+***
 
 ## Test
 
@@ -78,6 +114,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+***
 
 ## Stay in touch
 
