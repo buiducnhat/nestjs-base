@@ -12,7 +12,7 @@ Base code for developing RESTful Api Web server quickly using [NestJS](https://n
 ## Intergrating
 * [NestJS](https://nestjs.com) (totaly writing with Typescript)
 * [TypeORM](https://typeorm.io/)
-* [Mysql](https://www.mysql.com/) (also support various of [RDMS](https://en.wikipedia.org/wiki/RDMS))
+* [Mysql](https://www.mysql.com/) (also support various of [RDMS](https://en.wikipedia.org/wiki/Relational_database))
 * Logger
 * [Swagger](https://swagger.io/) (OpenAPI) for Api documents
 * Health check for server status
@@ -120,3 +120,4 @@ $ npm run test:cov
 
 * Author - [Gerpan](https://github.com/gerpann)
 * Facebook - [Gerpan](https://www.facebook.com/gerpan.4701)
+* If you want to integrate with MongoDB - [NestJS-Base-MongoDB](https://github.com/gerpann/nestjs-base-mongodb)
