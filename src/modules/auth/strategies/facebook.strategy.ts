@@ -4,12 +4,16 @@ import { Profile, Strategy } from 'passport-facebook';
 import { ConfigService } from '@nestjs/config';
 
 import { IAuthConfig } from '@src/configs/auth.config';
-import { SocialProvider } from '@src/modules/users/models/social.model';
-import { SocialDto } from '../dto/social.dto';
+import { SocialProvider } from '@modules/users/enums/social-provider.enum';
+import { SocialDto } from '@modules/auth/dto/social.dto';
+import { AuthService } from '@modules/auth/auth.service';
 
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
-  constructor(private readonly configService: ConfigService<IAuthConfig>) {
+  constructor(
+    private readonly configService: ConfigService<IAuthConfig>,
+    private readonly authService: AuthService,
+  ) {
     super({
       clientID: configService.get('FBAppId'),
       clientSecret: configService.get('FBAppSecretKey'),

@@ -5,8 +5,8 @@ import { ConfigService } from '@nestjs/config';
 
 import { IAuthConfig } from '@src/configs/auth.config';
 import { SocialDto } from '@modules/auth/dto/social.dto';
-import { SocialProvider } from '@modules/users/models/social.model';
 import { AuthService } from '@modules/auth/auth.service';
+import { SocialProvider } from '@modules/users/enums/social-provider.enum';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {

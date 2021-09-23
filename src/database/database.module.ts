@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { User } from '@modules/users/entities/user.entity';
 import { IDatabaseConfig } from '@src/configs/database.config';
+import { User } from '@modules/users/entities/user.entity';
+import { Social } from '@modules/users/entities/social.entity';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { IDatabaseConfig } from '@src/configs/database.config';
         username: configService.get('dbUsername'),
         password: configService.get('dbPassword'),
         database: configService.get('dbName'),
-        entities: [User],
+        entities: [User, Social],
       }),
       inject: [ConfigService],
     }),

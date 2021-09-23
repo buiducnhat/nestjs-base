@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { SocialProvider } from '@modules/users/enums/social-provider.enum';
 import { User } from './user.entity';
 

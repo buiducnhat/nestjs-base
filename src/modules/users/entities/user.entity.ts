@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { Social } from './social.entity';
 
 @Entity()
@@ -53,5 +54,5 @@ export class User {
   deletedAt: Date;
 
   @OneToMany(() => Social, (social) => social.user)
-  socials: [];
+  socials: Social[];
 }

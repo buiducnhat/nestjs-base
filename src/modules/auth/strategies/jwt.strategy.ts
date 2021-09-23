@@ -3,14 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 
-import { AuthService } from '@modules/auth/auth.service';
+import { UsersService } from '@src/modules/users/users.service';
 import { JwtPayload } from '@modules/auth/dto/jwt-payload.dto';
 import { IAuthConfig } from '@src/configs/auth.config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly authService: AuthService,
+    private readonly userService: UsersService,
     private readonly configService: ConfigService<IAuthConfig>,
   ) {
     super({
@@ -20,6 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
-    return this.authService.findUserById(payload.userId);
+    return this.userService.findOne(payload.userId);
   }
 }
