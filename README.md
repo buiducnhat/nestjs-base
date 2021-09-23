@@ -13,9 +13,12 @@ Base code for developing RESTful Api Web server quickly using [NestJS](https://n
 * [NestJS](https://nestjs.com) (totaly writing with Typescript)
 * [TypeORM](https://typeorm.io/)
 * [Mysql](https://www.mysql.com/) (also support various of [RDMS](https://en.wikipedia.org/wiki/Relational_database))
-* Logger
+* Logger (pure provided with NestJS)
+* Authentication with JWT and some Social Network (Facebook, Google,...). 
 * [Swagger](https://swagger.io/) (OpenAPI) for Api documents
 * Health check for server status
+* [Docker](https://www.docker.com/) basic config
+* Lint and format code using [Eslint](https://eslint.org/) with [Prettier](https://prettier.io/)
 
 ***
 
