@@ -1,4 +1,4 @@
-import { Role } from '@modules/auth/enums/role.enum';
+import { Role } from '@src/modules/users/enums/role.enum';
 
 export class UserInfoDto {
   id: number;

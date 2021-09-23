@@ -5,7 +5,7 @@ import { Roles } from '@src/decorators/roles.decorator';
 import { AuthService } from './auth.service';
 import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { UserInfoDto } from './dto/user-info.dto';
-import { Role } from './enums/role.enum';
+import { Role } from '../users/enums/role.enum';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { RegisterDto, RegisterResponseDto } from './dto/register.dto';

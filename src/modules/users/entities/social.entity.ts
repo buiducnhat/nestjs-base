@@ -1,43 +1,40 @@
-import { Role } from '@src/modules/users/enums/role.enum';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Social } from './social.entity';
+import { SocialProvider } from '@modules/users/enums/social-provider.enum';
+import { User } from './user.entity';
 
 @Entity()
-export class User {
+export class Social {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 100 })
+  @Column()
+  socialId: string;
+
+  @Column({ type: 'enum', enum: SocialProvider })
+  provider: SocialProvider;
+
+  @Column({ length: 50 })
   firstName: string;
 
-  @Column({ length: 100, nullable: true })
+  @Column({ length: 50, nullable: true })
   lastName: string;
 
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 50 })
   email: string;
 
   @Column({ length: 15, nullable: true })
   phone: string;
-
-  @Column({ type: 'enum', enum: Role, default: Role.USER })
-  role: Role;
-
-  @Column()
-  password: string;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  lastLogin: Date;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date;
@@ -52,6 +49,6 @@ export class User {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Social, (social) => social.user)
-  socials: [];
+  @ManyToOne(() => User, (user) => user.socials)
+  user: User;
 }

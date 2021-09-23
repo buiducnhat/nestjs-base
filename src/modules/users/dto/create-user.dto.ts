@@ -1,4 +1,4 @@
-import { Role } from '@src/modules/auth/enums/role.enum';
+import { Role } from '@src/modules/users/enums/role.enum';
 
 export class CreateUserDto {
   firstName: string;
