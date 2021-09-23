@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import { SocialDto } from '../auth/dto/social.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/user-create.dto';
+import { UpdateUserDto } from './dto/user-update.dto';
 import { Social } from './entities/social.entity';
 import { User } from './entities/user.entity';
 import { SocialProvider } from './enums/social-provider.enum';
@@ -26,20 +26,32 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findWithEmail(email: string) {
-    return this.userRepository.findOne({ email });
+  findWithEmail(email: string, needPassword = false) {
+    const qb = this.userRepository.createQueryBuilder('user').where({ email }).select('user');
+    if (needPassword) {
+      qb.addSelect('user.password');
+    }
+    return qb.getOne();
   }
 
-  findOne(id: number | string) {
-    return this.userRepository.findOne(id);
+  findOne(userId: number | string, needPassword = false) {
+    const qb = this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :userId', { userId })
+      .select('user')
+      .leftJoinAndSelect('user.socials', 'social');
+    if (needPassword) {
+      qb.addSelect('user.password');
+    }
+    return qb.getOne();
   }
 
-  update(id: number | string, updateUserDto: UpdateUserDto) {
-    return this.userRepository.update(id, updateUserDto);
+  update(userId: number | string, updateUserDto: UpdateUserDto) {
+    return this.userRepository.update(userId, updateUserDto);
   }
 
-  remove(id: number | string) {
-    return this.userRepository.delete(id);
+  remove(userId: number | string) {
+    return this.userRepository.delete(userId);
   }
 
   async createSocial(socialUserDto: SocialDto, userId: number | string) {
@@ -56,7 +68,6 @@ export class UsersService {
   async addSocialToUser(userId: number | string, socialUserId: number | string) {
     const socialUser = await this.socialRepository.findOne(socialUserId);
     const user = await this.findOne(userId);
-
     if (user.socials.some((social) => social.id === socialUser.id)) {
       return user;
     }
@@ -65,6 +76,6 @@ export class UsersService {
   }
 
   findSocialUser(socialId: string, provider: SocialProvider) {
-    return this.socialRepository.findOne({ socialId, provider });
+    return this.socialRepository.findOne({ socialId, provider }, { relations: ['user'] });
   }
 }

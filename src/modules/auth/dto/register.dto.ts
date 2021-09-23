@@ -7,8 +7,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { User } from '@modules/users/entities/user.entity';
 import { MIN_PASSWORD_LENGTH } from '@src/common/constants';
+import { Role } from '@src/modules/users/enums/role.enum';
+import { BasicSocialDto } from '@src/modules/users/dto/social-basic.dto';
 
 export class RegisterDto {
   @IsNotEmpty()
@@ -38,5 +39,17 @@ export class RegisterDto {
 
 export class RegisterResponseDto {
   token: string;
-  user: User;
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    avatar: string;
+    email: string;
+    phone: string;
+    role: Role;
+    lastLogin: Date;
+    createdAt: Date;
+    updateAt: Date;
+    socials: BasicSocialDto[];
+  };
 }

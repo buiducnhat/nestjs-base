@@ -3,13 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
-import { CreateUserDto } from '@modules/users/dto/create-user.dto';
+import { CreateUserDto } from '@src/modules/users/dto/user-create.dto';
 import { UsersService } from '@modules/users/users.service';
 import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { RegisterResponseDto } from './dto/register.dto';
 import { IAppConfig } from '@src/configs/app.config';
 import { SocialDto } from './dto/social.dto';
 import { IAuthConfig } from '@src/configs/auth.config';
+import { AUTH_MESSAGE } from './common/auth.constant';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
   async register(registerDto: CreateUserDto): Promise<RegisterResponseDto> {
     if (!!(await this.usersService.findWithEmail(registerDto.email))) {
       throw new HttpException(
-        { statusCode: HttpStatus.CONFLICT, message: 'Email already exists' },
+        { statusCode: HttpStatus.CONFLICT, message: AUTH_MESSAGE.EMAIL_EXISTS_ERROR },
         HttpStatus.CONFLICT,
       );
     }
@@ -40,10 +41,10 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
-    const user = await this.usersService.findWithEmail(loginDto.email);
+    const user = await this.usersService.findWithEmail(loginDto.email, true);
     if (!user || !bcrypt.compareSync(loginDto.password, user.password)) {
       throw new HttpException(
-        { statusCode: HttpStatus.UNAUTHORIZED, message: 'Wrong username or password' },
+        { statusCode: HttpStatus.UNAUTHORIZED, message: AUTH_MESSAGE.WRONG_LOGIN_ERROR },
         HttpStatus.UNAUTHORIZED,
       );
     }
