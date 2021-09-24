@@ -14,7 +14,7 @@ services:
     ports:
       - $DB_PORT:3306
     volumes:
-      - ./data/db:/var/lib/mysql
+      - ./.docker/data/mysqldb:/var/lib/mysql
   app:
     depends_on:
       - mysqldb
@@ -28,7 +28,7 @@ services:
       - $PORT:$PORT
     environment:
       - DB_HOST=mysqldb
-      - DB_USER=$DB_USERNAME
+      - DB_USERNAME=root
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
       - DB_PORT=$DB_PORT
