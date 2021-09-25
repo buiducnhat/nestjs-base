@@ -19,6 +19,7 @@ services:
     depends_on:
       - mysqldb
     build: ./
+    # image: nhaths4701/nestjs-base
     command: sh -c "yarn migration:run && yarn start:prod"
     restart: unless-stopped
     env_file: ./.env
